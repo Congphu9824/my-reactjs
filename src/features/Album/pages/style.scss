@@ -1,0 +1,10 @@
+.page{
+    &_title{
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: rgb(206, 21, 206);
+        // 1 rem = 16px
+        margin-left: 20rem;
+    }
+}

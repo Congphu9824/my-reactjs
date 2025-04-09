@@ -11,3 +11,32 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+
+
+
+.nav-container {
+  display: flex;
+  justify-content: center; 
+  gap: 20px; 
+  margin-bottom: 20px;
+}
+
+.nav-container a {
+  text-decoration: none; 
+  color: black; 
+}
+
+.nav-container a.active-link {
+  color: red;
+  font-weight: bold;
+}
+
+
+.nav-container a:hover {
+  transform: translateY(-4px); /* Nổi lên trên 4px */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #f0f0f0;
+  color: #007bff;
+}

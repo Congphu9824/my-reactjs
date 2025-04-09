@@ -1,0 +1,29 @@
+.album-list {
+  display: flex;
+  //flex-flow  = flex-direction & flex-wrap
+  flex-flow: row wrap; // Horizontal arrangement is not enough, it will go to the next line.
+  gap: 1rem;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+
+   & > li {
+    width: 100%;
+    max-width: 300px;
+    // margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+    border-radius: 10px;
+    background-color: #f0f0f0; // Light gray background for album items
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Subtle shadow for depth
+    transition: transform 0.3s ease; // Smooth scaling effect on hover
+
+    &:hover {
+      transform: scale(1.05); // Scale up on hover
+      cursor: pointer; // Change cursor to pointer on hover
+    }
+}}

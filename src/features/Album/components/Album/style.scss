@@ -1,0 +1,16 @@
+.album {
+    &_thumbnail{
+        & > img{
+            width: 240px;
+            // 1 rem = 16px
+            border-radius: 0.25rem  
+        }
+    }
+    &_name{
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-top: 0.5rem;
+    }
+
+}
+  
