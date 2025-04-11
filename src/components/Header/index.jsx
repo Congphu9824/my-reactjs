@@ -17,18 +17,37 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Register from '../../features/Auth/components/Register';
+import { Menu, MenuItem } from '@mui/material';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 
 export default function Header() {
+  // check dialog open or close
     const [open, setOpen] = React.useState(false);
+  //  management status menu
+    const [anchorEl, setAnchorEl] = React.useState(null);
 
-    const handleClickOpen = () => {
-      setOpen(true);
-    };
-  
+    // close dialog register
     const handleClose = () => {
       setOpen(false);
     };
+    
+    // open dialog register
+    const handleClickOpen = () => {
+      setOpen(true);
+    }
+
+    // open menu
+    const handleMenuClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    }
+
+    // close menu
+    const handleCloseMenu = () => {
+      setAnchorEl(null);
+    }
+
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -45,12 +64,27 @@ export default function Header() {
           </NavLink>
 
           <NavLink to="/albums" className="navlink__albums">
+
                 <Button color="inherit">Albums</Button>
           </NavLink>
-          <Button color="inherit" onClick={handleClickOpen}>Register</Button>
+          <Button color="inherit" onClick={handleMenuClick}>
+             <AccountCircleIcon />
+          </Button>
         </Toolbar>
       </AppBar>
-       <Dialog 
+
+       {/*Drop-down menu - anchorEl: specifies the Dom element attached - 
+                         - menu open if not null
+                         - close menu click outside
+       */ }
+      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleCloseMenu}>
+            <MenuItem onClick={handleCloseMenu}>Login</MenuItem>
+            <MenuItem onClick={handleClickOpen}>Register</MenuItem>
+            <MenuItem onClick={handleCloseMenu}>Logout</MenuItem>
+      </Menu>
+
+      {/* Dialog register */}
+      <Dialog 
         open={open}
         onClose={(event, reason) => {
             if (reason !== 'backdropClick' && reason !== 'escapeKeyDown') {

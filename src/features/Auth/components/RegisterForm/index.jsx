@@ -1,60 +1,83 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import InputField from '../../../../components/form-controls';
+import InputField from '../../../../components/form-controls/inputField';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from "@hookform/resolvers/yup"
-import * as yup from "yup"
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { Avatar, Typography } from '@mui/material';
 import LockOutlined from '@mui/icons-material/LockOutlined';
-
-// user nhập data vào form
+import './style.scss';
+import PasswordField from '../../../../components/form-controls/PasswordField';
 
 RegisterForm.propTypes = {
-    onSubmit: PropTypes.func, // Corrected prop name
+    onSubmit: PropTypes.func,
 };
 
-function RegisterForm(props) {
-    const schema = yup.object({
-    title: yup.string().required('Please enter your todo title').min(5, 'Title must be at least 5 characters long'),
-  })
-  .required()
+const schema = yup.object({
+    FullName: yup
+        .string()
+        .required('Full name is required')
+        .min(3, 'Full name must be at least 3 characters')
+        .test('Full name must be at least 3 characters', (value) => {
+           console.log(value);
+            return value.split(' ').length >= 2; 
+        }),
+    Email: yup
+        .string()
+        .required('Email is required')
+        .email('Invalid email format'),
+
+    Password: yup
+        .string()
+        .required('Password is required')
+        .min(6, 'Password must be at least 6 characters'),
+
+    RetypePassword: yup
+        .string()
+        .required('Please confirm your password')
+        .oneOf([yup.ref('Password')], 'Passwords must match'),
+});
+
+function RegisterForm({ onSubmit }) {
     const form = useForm({
         defaultValues: {
             FullName: '',
             Email: '',
             Password: '',
             RetypePassword: '',
-
         },
-        resolver: yupResolver(schema)
+        resolver: yupResolver(schema),
+        mode: "onTouched" // onTouched ✅ Show error after user touches input / all
     });
 
     const handleSubmit = (values) => {
-        console.log('Form submit', values);
-        const { onSubmit } = props; 
         if (onSubmit) {
-            onSubmit(values); // Call the onSubmit function passed from the parent component
+            onSubmit(values);
         }
-        form.reset(); // Reset the form after submission
+        form.reset();
     };
 
     return (
-        <div>
-            <Avatar>
-                <LockOutlined></LockOutlined>
+        <div className='register'>
+            <Avatar className='register__avatar' sx={{ backgroundColor: 'red' }}>
+                <LockOutlined className='register__lock' />
             </Avatar>
-            <Typography component="h3" variant="h5">
+
+            <Typography className='register__title' component="h3" variant="h5">
                 Create An Account
             </Typography>
 
             <form onSubmit={form.handleSubmit(handleSubmit)}>
                 <InputField name="FullName" label="Full Name" form={form} />
                 <InputField name="Email" label="Email" form={form} />
-                <InputField name="Password" label="Password" form={form} />
-                <InputField name="RetypePassword" label="Retype Password" form={form} />
+                <PasswordField name="Password" label="Password" form={form}  />
+                <PasswordField name="RetypePassword" label="Retype Password" form={form}  />
+
+                <button type="submit" className='register__create' disabled={!form.formState.isValid} >
+                         Create An Account
+                </button>
             </form>
         </div>
-      
     );
 }
 
