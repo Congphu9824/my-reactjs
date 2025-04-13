@@ -1,13 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import InputField from '../../../../components/form-controls/inputField';
-import { useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { Avatar, Typography } from '@mui/material';
 import LockOutlined from '@mui/icons-material/LockOutlined';
-import './style.scss';
+import { Avatar, LinearProgress, Typography } from '@mui/material';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import * as yup from "yup";
+import InputField from '../../../../components/form-controls/inputField';
 import PasswordField from '../../../../components/form-controls/PasswordField';
+import './style.scss';
 
 RegisterForm.propTypes = {
     onSubmit: PropTypes.func,
@@ -47,18 +47,23 @@ function RegisterForm({ onSubmit }) {
             RetypePassword: '',
         },
         resolver: yupResolver(schema),
-        mode: "onTouched" // onTouched ✅ Show error after user touches input / all
+        mode: "onTouched" // onTouched  Show error after user touches input / all
     });
 
-    const handleSubmit = (values) => {
+    const handleSubmit = async (values) => {
         if (onSubmit) {
-            onSubmit(values);
+            // await complete before reset the form.
+           await onSubmit(values);// Wait for API to finish processing
         }
         form.reset();
     };
+    
+    const { isSubmitting } = form.formState;
 
     return (
         <div className='register'>
+            {isSubmitting && <LinearProgress className="register__progress"/>}
+
             <Avatar className='register__avatar' sx={{ backgroundColor: 'red' }}>
                 <LockOutlined className='register__lock' />
             </Avatar>

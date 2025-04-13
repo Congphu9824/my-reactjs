@@ -1,18 +1,18 @@
-import logo from './logo.svg';
-import Todofeature from './features/Todo/pages';
+import { Typography } from '@mui/material';
+import { useSnackbar } from 'notistack';
+import { useEffect } from 'react';
+import { Navigate, NavLink, Route, Routes } from 'react-router-dom';
+import styled from 'styled-components';
+import productApi from './api/productApi';
+import Header from './components/Header';
+import Notfound from './components/NotFound';
 import Albumlist from './features/Album/pages';
 import ColorBox from './features/Color/ColorBox';
 import Counter from './features/Color/Counter';
-import ListPage from './features/Todo/pages/listpages';
+import Todofeature from './features/Todo/pages';
 import DetailPage from './features/Todo/pages/detailPages';
-import Notfound from './components/NotFound';
-import productApi from './api/productApi';
-import styled from 'styled-components';
-import { Typography } from '@mui/material';
+import ListPage from './features/Todo/pages/listpages';
 import './index.css';
-import { NavLink, Route, Routes, Navigate } from 'react-router-dom';
-import { useEffect } from 'react';
-import Header from './components/Header';
 
 function App() {
   const name = 'John Doe';
@@ -50,9 +50,15 @@ function App() {
     fontWeight: 'bold',
   };
 
+  const { enqueueSnackbar } = useSnackbar();
+
+  const showNoti = () => {
+    enqueueSnackbar('Hello world', { variant: 'success', autoHideDuration: 2000 });
+  };
   return (
     <div className="App">
       <Header />
+      <button onClick={showNoti}>Show notis</button>
       <header className="App-header">
         <Title>Hello World</Title>
         <Typography {...textProps}>

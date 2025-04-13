@@ -1,24 +1,18 @@
-import * as React from 'react';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import CodeIcon from '@mui/icons-material/Code';
+import { Menu, MenuItem } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import CodeIcon from '@mui/icons-material/Code';
-import QrCode2Icon from '@mui/icons-material/QrCode2';
-import { Link, NavLink } from 'react-router-dom';
-import './style.scss';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import * as React from 'react';
+import { Link, NavLink } from 'react-router-dom';
 import Register from '../../features/Auth/components/Register';
-import { Menu, MenuItem } from '@mui/material';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import './style.scss';
 
 
 export default function Header() {
@@ -86,27 +80,16 @@ export default function Header() {
       {/* Dialog register */}
       <Dialog 
         open={open}
+        disablebackdropClick
+        disableEscapeKeyDown
         onClose={(event, reason) => {
             if (reason !== 'backdropClick' && reason !== 'escapeKeyDown') {
               handleClose();
             }
           }}      
-            slotProps={{
-            paper: {
-              component: 'form',
-              onSubmit: (event) => {
-                event.preventDefault();
-                const formData = new FormData(event.currentTarget);
-                const formJson = Object.fromEntries(formData.entries());
-                const email = formJson.email;
-                console.log(email);
-                handleClose();
-              },
-            },
-          }}
       >
         <DialogContent>
-            <Register />
+            <Register closeDialog={handleClose} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
